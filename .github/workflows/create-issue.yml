@@ -1,0 +1,24 @@
+
+name: Create Issue on Push
+
+on:
+  push:
+
+permissions:
+  issues: write
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create GitHub Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            --method POST \
+            "repos/$GITHUB_REPOSITORY/issues" \
+            -f title="Push event practice" \
+            -f body="This issue was created automatically by GitHub Actions." \
+            --jq '.html_url'
